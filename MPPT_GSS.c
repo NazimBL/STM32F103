@@ -1,3 +1,8 @@
+ /*
+ * Nazim BL
+ * mikroC PRO for ARM
+ */
+
  unsigned int k=0,v1=0,v2=0,p1=0,p2=0;
  const unsigned int VMAX=315;
  unsigned int a=5,b=300,delta=1,diff=0;
@@ -9,36 +14,31 @@
  void setVref(unsigned int vo);
  unsigned long calPower(unsigned int vo);
  
- 
- 
+ void main() {
 
-void main() {
-
-        //setup();
-            GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_13);
-
+        setup();
+        GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_13);
         while(1){
         
         GPIOC_ODR=~GPIOC_ODR;
         Delay_ms(800);
           }
-        /*
+        
         p1=calPower(v1);
         p2=calPower(v2);
         
-        if(p2>p1   a=v1;
+        if(p2>p1) a=v1;
 
         else{
          b=v2;
-         //v2=a+0.618*(b-a);
+         v2=a+0.618*(b-a);
         }
         
         diff=(v2-v1);
         if(diff<delta)break;
         
-        }
-        setVref((v1+v2)/2);
-          */
+         setVref((v1+v2)/2);
+        }               
 }
 
 void setup(){
@@ -61,14 +61,13 @@ void PWM_Setup(unsigned long fo){
 }
 
 void setVref(unsigned int vo){
-     //duty cycle = (vo/VMAX)*100;
+     duty cycle = (vo/VMAX)*100;
      unsigned int ratio=vo/VMAX;
      k=k*ratio;
      
      PWM_TIM3_Set_Duty(k, _PWM_NON_INVERTED, _PWM_CHANNEL1);
      PWM_TIM3_Start(_PWM_CHANNEL1, &_GPIO_MODULE_TIM3_CH1_PC6);
-     
-
+    
 }
 unsigned long calPower(unsigned int vo){
       setVref(vo);
@@ -81,5 +80,4 @@ unsigned long calPower(unsigned int vo){
       //add delay
       }
       return vdc*idc;
-
 }
