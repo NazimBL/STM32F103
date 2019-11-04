@@ -1,3 +1,7 @@
+/*
+* Nazim BL
+* mikroC PRO for ARM
+*/
 
 unsigned rec;
 void main() {
@@ -5,7 +9,6 @@ void main() {
   UART1_Init(115200);
   GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_13);
   Delay_ms(100);
-
 
   while(1) {
     if (UART1_Data_Ready()){
