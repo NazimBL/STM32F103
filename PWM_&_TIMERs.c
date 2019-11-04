@@ -1,23 +1,8 @@
-#define spi_T 100
 int PWM;
 unsigned int PWM_T,d;
-
-sbit PV_CS1 at GPIOB_ODR.B8;
-sbit PV_CS2 at GPIOB_ODR.B7;
-sbit PV_CS3 at GPIOB_ODR.B6;
-sbit PV_CS4 at GPIOA_ODR.B15;
-sbit PV_CS5 at GPIOA_ODR.B12;
-
-sbit Spi_CLK at GPIOB_ODR.B3;
-sbit Spi_SDI at GPIOB_ODR.B4;
-sbit Spi_SDO at GPIOB_ODR.B5;
-
 char kk,p;
 char test=1;
 char readbuff[64],writebuff[64];
-
-void adc_setup();
-void SendPoint();
 
 unsigned long vadc[64],iadc[64];
 unsigned int J[4]={2000,2000,2000,2000};
@@ -29,15 +14,15 @@ int avg=0;
 char temp=25,lowb,highb;
 int irr=2000;
 
-
 void SendVI();
 void readJT();
-char val1[4];
+void adc_setup();
+void SendPoint();
 void sendVIsamples(char p);
 
-unsigned char lowB,highB;
-
+char val1[4];
 unsigned buffer=45,take=0;
+
 void my_Write();
 
 void InitMain()
@@ -68,26 +53,22 @@ void InitMain()
   //PWM_TIM2_Set_Duty(PWM_T/2, _PWM_NON_INVERTED, _PWM_CHANNEL4);
   AFIOEN_bit = 1;
   SWJ_CFG1_bit = 1;  // PB3 alternate function enable
-SPI1_Init_Advanced(_SPI_FPCLK_DIV256, _SPI_MASTER | _SPI_8_BIT | _SPI_CLK_IDLE_LOW |
-   _SPI_FIRST_CLK_EDGE_TRANSITION | _SPI_MSB_FIRST | _SPI_SS_DISABLE | _SPI_SSM_DISABLE |
-   _SPI_SSI_1, &_GPIO_MODULE_SPI1_PB345);
+  SPI1_Init_Advanced(_SPI_FPCLK_DIV256, _SPI_MASTER | _SPI_8_BIT | _SPI_CLK_IDLE_LOW |
+  _SPI_FIRST_CLK_EDGE_TRANSITION | _SPI_MSB_FIRST | _SPI_SS_DISABLE | _SPI_SSM_DISABLE |
+  _SPI_SSI_1, &_GPIO_MODULE_SPI1_PB345);
     //AFIO_MAPR.SPI1_REMAP=1;
-
-
 }
 
 //critical point update
 void Timer3_interrupt() iv IVT_INT_TIM3
 {
   TIM3_SR.UIF = 0;
-        // Toggle PORTE led's
+   // Toggle PORTE led's
   //GPIOC_ODR=~GPIOC_ODR;
   
   //current then voltage
   //IVs[0]=(int)(1*(ADC1_Read(1)-ADC1_Read(0)));
-  //IVs[1]=(int)(1*(ADC1_Read(2)-ADC1_Read(3)));
-  
-   
+  //IVs[1]=(int)(1*(ADC1_Read(2)-ADC1_Read(3)));   
 }
 
 
