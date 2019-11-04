@@ -1,3 +1,6 @@
+char buf[10];
+unsigned int last_encoder_state=0;
+
 void timer_setup(void)
 {
      RCC_APB1ENR.TIM4EN = 1;//  clock enable for timer_4
@@ -11,13 +14,10 @@ void timer_setup(void)
      TIM4_CR1bits.CEN=1;  //  timer_4 enable    
 }
 
-char buf[10];
-unsigned int last_encoder_state=0;
-
 void main() {
     
-
-    GPIO_Config(&GPIOB_BASE,_GPIO_PINMASK_6 | _GPIO_PINMASK_7,_GPIO_CFG_MODE_INPUT | _GPIO_CFG_PULL_UP);// setup port B.6 and B.7 as input with pull up
+    // setup port B.6 and B.7 as input with pull up
+     GPIO_Config(&GPIOB_BASE,_GPIO_PINMASK_6 | _GPIO_PINMASK_7,_GPIO_CFG_MODE_INPUT | _GPIO_CFG_PULL_UP);
     UART1_Init(9600);
     timer_setup();
     UART1_Write_Text("Encoder + STM32 by timer. Turn encoder to see change.");
@@ -32,6 +32,5 @@ void main() {
         }
         Delay_ms(100);
     }
-
 }
 
