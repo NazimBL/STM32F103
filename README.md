@@ -1,4 +1,4 @@
 # STM32
 
 
-Porgramming the STM32f103C4 board with its different features
+Porgramming the STM32f103 microcontroller with its different features
