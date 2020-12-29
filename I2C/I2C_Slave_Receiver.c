@@ -7,8 +7,6 @@ const unsigned char SLAVE_ADDRESS=0x50;
 
 unsigned long status;
 
-
-void I2C_scan_device(unsigned short dev_address);
 void I2C_slave_config();
 void read_buff();
 
@@ -57,15 +55,10 @@ void main() {
       UART1_Init_Advanced(9600, _UART_8_BIT_DATA, _UART_NOPARITY, _UART_ONE_STOPBIT, &_GPIO_MODULE_USART1_PA9_10);
       I2C_slave_config(); 
       UART1_Write_Text("Setup\n"); 
-      GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_13);// debug led
-      GPIOC_ODRbits.ODR13= 1;
-
-      while(1){
-      
-      
-      I2C_scan_device(0x04); 
       Delay_ms(200); 
-         
+    
+      while(1){
+        
       if(data_ready==1){
       UART1_Write_Text("\nData Received: ");
       UART1_Write_Text(msg); 
@@ -74,15 +67,6 @@ void main() {
       data_ready=0;
       }
       }
-}
-
-void I2C_scan_device(unsigned short dev_address){
- I2C1_Start();
- if (I2C1_Write(dev_address,tx_buff,5,END_MODE_STOP)){
-   UART1_Write_Text("Device not found\n");
- }
- else  UART1_Write_Text("Device detected \n");
- 
 }
 
 void I2C_slave_config(){
