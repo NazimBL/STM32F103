@@ -6,13 +6,14 @@
 void Timer3_interrupt() iv IVT_INT_TIM3
 {
   TIM3_SR.UIF = 0;
-  GPIOC_ODRbits.ODR13=~GPIOC_ODRbits.ODR13=1;; //Toggle pin13 led's
+  GPIOC_ODRbits.ODR13=~GPIOC_ODRbits.ODR13; //Toggle pin13 led's
   adc=ADC1_Read(0);
  } 
  
  void main(){
 	 
 	 GPIO_Digital_Output(&GPIOC_BASE, _GPIO_PINMASK_13);
+	 GPIOC_ODRbits.ODR13=1;
 	 ADC_Set_Input_Channel(_ADC_CHANNEL_0);
 	 ADC1_Init();
 	 Timer3_Setup();
